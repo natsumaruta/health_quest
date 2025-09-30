@@ -53,12 +53,12 @@ def update_password(username: str, new_password: str) -> None:
 if __name__ == "__main__":
     # ★動作確認用の例。必要に応じて書き換えて実行してね。
     # 1) ユーザー名の変更
-    update_username(old_username="kisyuuinu", new_username="akitainu")
+    update_username(old_username="chiwawa", new_username="maruchi")
 
     # 2) メールの変更
-    update_email(username="akitainu", new_email="akita@example.com")
+    update_email(username="maruchi", new_email="maruchi@example.com")
 
     # 3) パスワードの変更
-    update_password(username="akitainu", new_password="newpass123")
+    update_password(username="maruchi", new_password="newpass789")
 
 # 実行するとき：python -m scripts.update_user

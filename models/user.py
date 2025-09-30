@@ -30,11 +30,7 @@ class User(Model):
     @classmethod
     def create_user(cls, username, password, email=None):
         hashed = bcrypt.hash(password)
-        return cls.create(
-            username=username,
-            email=email,
-            password_hash=hashed
-            )
+        return cls.create(username=username, email=email, password_hash=hashed)
 
     # 入力されたパスワードと照合
     def match_password(self, password):

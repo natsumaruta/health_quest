@@ -1,7 +1,6 @@
 # scripts/delete_user.py
 import sys
 import os
-
 from models.user import User
 from db_config import db
 
@@ -26,8 +25,7 @@ def delete_all() -> None:
 
 
 if __name__ == "__main__":
-    # ★必要に応じて切り替えて試してね
-    delete_user("akitainu")
+    delete_user("maruchi")
     # delete_all()
 
 # 実行するとき：python -m scripts.delete_user

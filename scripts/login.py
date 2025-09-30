@@ -20,6 +20,6 @@ def login(username, password):
 
 if __name__ == "__main__":
     # デモ：signup.pyで作ったユーザーで試す
-    login(username="kisyuuinu", password="mepassword")
+    login(username="chiwawa", password="minipassword")
 
 # 実行するとき：python -m scripts.login

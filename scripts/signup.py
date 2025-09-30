@@ -16,6 +16,6 @@ def signup(username, password, email=None):
 
 if __name__ == "__main__":
     # デモ：好きに書き換えてOK
-    signup(username="kisyuuinu", password="mepassword", email="inu@example.com")
+    signup(username="chiwawa", password="minipassword", email="chiwawa@example.com")
 
 # 実行するとき：python -m scripts.signup
