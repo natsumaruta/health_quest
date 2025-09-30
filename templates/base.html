@@ -74,13 +74,13 @@
 <body>
     <div class="container">
         <p>
-            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('auth.index') }}">Home</a>
             {% if session.get('user_id') %}
-            | <a href="{{ url_for('dashboard') }}">Dashboard</a>
-            | <a href="{{ url_for('logout') }}">Logout</a>
+            | <a href="{{ url_for('auth.dashboard') }}">Dashboard</a>
+            | <a href="{{ url_for('auth.logout') }}">Logout</a>
             {% else %}
-            | <a href="{{ url_for('signup') }}">Signup</a>
-            | <a href="{{ url_for('login') }}">Login</a>
+            | <a href="{{ url_for('auth.signup') }}">Signup</a>
+            | <a href="{{ url_for('auth.login') }}">Login</a>
             {% endif %}
         </p>
         {% with messages = get_flashed_messages(with_categories=true) %}

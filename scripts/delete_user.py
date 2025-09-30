@@ -25,7 +25,7 @@ def delete_all() -> None:
 
 
 if __name__ == "__main__":
-    delete_user("maruchi")
+    delete_user("akita")
     # delete_all()
 
 # 実行するとき：python -m scripts.delete_user

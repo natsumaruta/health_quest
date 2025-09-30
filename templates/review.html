@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>抽出値の確認・修正</h2>
+
+{# 対象年の選択（開発中） #}
+{% if session.get("ocr_years") %}
+<form method="post" action="{{ url_for('ocr.review') }}" style="margin: 0 0 1rem">
+    <label>対象年:</label>
+    <select name="target_year" onchange="this.form.submit()">
+        {% for y in session['ocr_years'] %}
+        <option value="{{ y }}" {% if y==session.get('ocr_target_year') %}selected{% endif %}>{{ y }}</option>
+        {% endfor %}
+    </select>
+</form>
+{% endif %}
+
+<form method="post">
+    <table border="1" cellpadding="6">
+        {% for k, v in data.items() %}
+        <tr>
+            <td>{{ k }}</td>
+            <td>
+                <input name="{{ k }}" value="{{ v if v is not none else '' }}" inputmode="decimal" style="width:160px">
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <button type="submit">この内容で判定へ</button>
+</form>
+
+{# デバッグ表示（開発中のみ） #}
+{% if session.get("ocr_debug_lines") %}
+<h3>OCR生テキスト（デバッグ用）</h3>
+<pre style="white-space:pre-wrap; border:1px solid #ccc; padding:8px; background:#f9f9f9">
+{{ session["ocr_debug_lines"]|join("\n") }}
+    </pre>
+{% endif %}
+
+{% endblock %}

@@ -16,7 +16,7 @@ auth_bp = Blueprint("auth", __name__)
 @auth_bp.route("/")
 def index():
     if session.get("user_id"):
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("auth.dashboard"))
     return render_template("index.html")
 
 

@@ -1,6 +1,13 @@
 # services/ocr_service.py
-import re, numpy as np, cv2
+import io, re
+import numpy as np
+from PIL import Image
 from paddleocr import PaddleOCR
+from datetime import datetime
+
+import paddle
+
+paddle.set_device("cpu")
 
 # ローカルモデルを明示指定（自動DLを回避）
 _ocr = PaddleOCR(
@@ -54,19 +61,25 @@ def _is_pii(text: str) -> bool:
 
 
 def ocr_ephemeral_from_filestorage(file_storage) -> dict:
-    """画像は保存せずにOCR→PII行除外→数値のみ返す。"""
-    buf = np.frombuffer(file_storage.read(), dtype=np.uint8)
-    img = cv2.imdecode(buf, cv2.IMREAD_COLOR)
-    if img is None:
-        return {"error": "decode_failed"}
+    """画像はディスク保存せず、PII除外して数値だけ返す。OpenCVは使わない。"""
+    try:
+        raw = file_storage.read()
+        img = Image.open(io.BytesIO(raw)).convert("RGB")
 
-    result = _ocr.ocr(img, cls=True)
+        # （任意の前処理）
+        # img = img.convert("L").resize((img.width*2, img.height*2)).convert("RGB")
+
+        np_img = np.array(img)
+    except Exception as e:
+        return {"error": f"decode_failed: {e}"}
+
+    result = _ocr.ocr(np_img, cls=True)
 
     lines = []
     for block in result:
         for item in block:
             text, conf = item[1][0], float(item[1][1])
-            if conf < 0.5:
+            if conf < 0.2:
                 continue
             if _is_pii(text):
                 continue
@@ -84,7 +97,6 @@ def ocr_ephemeral_from_filestorage(file_storage) -> dict:
         if m:
             out[key] = _safe_float(m.group(2))
             continue
-        # ラベル行の同一行フォールバック
         for line in lines:
             if any(re.search(p, line, flags=re.IGNORECASE) for p in pats):
                 m2 = re.search(NUM_PAT, line)
@@ -92,6 +104,4 @@ def ocr_ephemeral_from_filestorage(file_storage) -> dict:
                     out[key] = _safe_float(m2.group(0))
                 break
 
-    # 保険で明示解放
-    del img, buf, result, lines, joined
-    return {"values": out}
+    return {"values": out, "debug_lines": lines}

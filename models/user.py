@@ -6,14 +6,14 @@
 # DateTimeField:日時を保存するカラム（例: ユーザー作成日、最終ログイン日時）
 from peewee import SqliteDatabase, Model, CharField, DateTimeField
 
-# passlib :パスワードを安全に扱うためのライブラリ #bcrypt は強力なハッシュ化方式
-from passlib.hash import bcrypt
-
 # Python標準の日時クラス
 from datetime import datetime
 
 # models/__init__.py から db をインポート
 from . import db
+
+# passlib :パスワードを安全に扱うためのライブラリ
+from passlib.hash import pbkdf2_sha256
 
 
 class User(Model):
@@ -29,9 +29,9 @@ class User(Model):
     # パスワードをハッシュ化して保存
     @classmethod
     def create_user(cls, username, password, email=None):
-        hashed = bcrypt.hash(password)
+        hashed = pbkdf2_sha256.hash(password)
         return cls.create(username=username, email=email, password_hash=hashed)
 
     # 入力されたパスワードと照合
-    def match_password(self, password):
-        return bcrypt.verify(password, self.password_hash)
+    def match_password(self, password: str) -> bool:
+        return pbkdf2_sha256.verify(password, self.password_hash)
