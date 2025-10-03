@@ -1,1 +1,22 @@
+# 仮想環境を無視
 .venv
+# 秘密の環境変数ファイルを無視
+.env
+# Pythonキャッシュ
+# Pythonが作るキャッシュフォルダを無視
+__pycache__/
+# .pyc, .pyo, .pyd などコンパイル済みファイルを無視
+*.py[cod]
+
+
+.DS_Store
+
+
+# native artifacts
+*.so
+*.dylib
+
+# runtime/downloaded
+models/
+uploads/
+instance/

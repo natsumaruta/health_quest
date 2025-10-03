@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>ダッシュボード</h2>
+<p>ようこそ、{{ username }} さん！</p>
+
+<h3>メニュー</h3>
+<ul>
+    <li><a href="{{ url_for('ocr.upload_form') }}">健診結果をアップロード</a></li>
+    <li><a href="#">履歴を見る（準備中）</a></li>
+    <li><a href="#">プロフィール編集（準備中）</a></li>
+</ul>
+
+{% if session.get("ocr_confirmed") %}
+<h3>直近の分析結果</h3>
+<p>
+    フラグ: {{ session["ocr_confirmed"] }}
+    → <a href="{{ url_for('ocr.analysis') }}">詳細を見る</a>
+</p>
+{% endif %}
+{% endblock %}

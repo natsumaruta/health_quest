@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>健診票OCR：画像アップロード</h2>
+{% if error %}<p class="danger">{{ error }}</p>{% endif %}
+<form action="{{ url_for('ocr.upload_ocr') }}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept="image/*,.pdf" required>
+    <button type="submit">OCR実行</button>
+</form>
+{% if session.get('ocr_extracted') %}
+<p><a href="{{ url_for('ocr.review') }}">直前の抽出結果を確認する</a></p>
+{% endif %}
+{% endblock %}

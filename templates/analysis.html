@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>判定結果</h2>
+
+<h3>値</h3>
+<ul>
+    {% for k, v in values.items() %}<li>{{ k }}: {{ v }}</li>{% endfor %}
+</ul>
+
+<h3>しきい値 該当</h3>
+{% if flags and flags|length %}
+<ul>{% for f in flags %}<li>{{ f }}</li>{% endfor %}</ul>
+{% else %}
+<p>重大な基準には該当なし</p>
+{% endif %}
+
+<h3>短文コメント</h3>
+{% if comments and comments|length %}
+<ul>{% for c in comments %}<li>{{ c }}</li>{% endfor %}</ul>
+{% else %}
+<p>特記事項なし</p>
+{% endif %}
+
+<h3>要約</h3>
+<p>{{ summary }}</p>
+
+<p><a href="{{ url_for('ocr.upload_form') }}">別の画像を解析する</a></p>
+{% endblock %}
